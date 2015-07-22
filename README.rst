@@ -45,8 +45,7 @@ On `Stellarium`_, you should follow the steps to add a telescope.
 
 * Back on the Telescope Control tab under Configuration window, click configure, then on Add;
 
-* Select External Software type, choose a name (e.g. ``chimera``) it and set the coordinates to J2000. Optionally set to
-start/connect at startup.
+* Select External Software type, choose a name (e.g. ``chimera``) it and set the coordinates to J2000. Optionally set to start/connect at startup.
 
 .. image:: https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img1.png
 
@@ -58,7 +57,7 @@ start/connect at startup.
 
 .. image:: https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img3.png
 
-* To move the telescope, go to the main window, select the desired star and press CRTL+0, which is the shortcut for the first configured telescope. Select slew to this object and click on slew.
+* To move the telescope, go to the main window, select the desired star and press CRTL+0, which is the shortcut for the first configured telescope. Select current object or to slew to the selected object and then in Slew.
 
 .. image:: https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img4.png
 
