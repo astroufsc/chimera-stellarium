@@ -1,12 +1,12 @@
 chimera-stellarium plugin
 =========================
 
-This is a controller plugin to integrate `chimera`_ with `Stellarium`_.
+A `chimera`_ controller plugin to integrate with `Stellarium`_.
 
 Installation
 ------------
 
-Installation instructions. Dependencies, etc...
+To install this plugin, just run:
 
 ::
 
@@ -48,25 +48,23 @@ On `Stellarium`_, you should follow the steps to add a telescope.
 * Select External Software type, choose a name (e.g. ``chimera``) it and set the coordinates to J2000. Optionally set to
 start/connect at startup.
 
-![stellarium screenshot](https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img1.png)
+.. image:: https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img1.png
 
-* Then, skip device settings tab and type the connection settings with the host (which by default is ``localhost``) and
-the port (which by default is ``10001``).
+* Then, skip device settings tab and type the connection settings with the host (which by default is ``localhost``) and the port (which by default is ``10001``).
 
-![stellarium screenshot](https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img2.png)
+.. image:: https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img2.png
 
 * Click on connect and, if successful, you should see the ``Connected`` status on the telescopes dialog:
 
-![stellarium screenshot](https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img3.png)
+.. image:: https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img3.png
 
-* To move the telescope, go to the main window, select the desired star and press CRTL+0, which is the shortcut for the
-first configured telescope. Select slew to this object and click on slew.
+* To move the telescope, go to the main window, select the desired star and press CRTL+0, which is the shortcut for the first configured telescope. Select slew to this object and click on slew.
 
-![stellarium screenshot](https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img4.png)
+.. image:: https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img4.png
 
 * You should see where your telescope is pointing to on the Stellarium sky-map.
 
-![stellarium screenshot](https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img5.png)
+.. image:: https://github.com/astroufsc/chimera-stellarium/raw/master/docs/images/img5.png
 
 For more info on setting up the connection: http://www.stellarium.org/wiki/index.php/Telescope_Control_plug-in
 
