@@ -103,7 +103,7 @@ class Stellarium(ChimeraObject):
     __config__ = {"telescope": "/Telescope/0",
                   "position_update_frequency": 2,
                   "hostname": "localhost",
-                  "port": 9000}
+                  "port": 10001}
 
     def __init__(self):
         ChimeraObject.__init__(self)
