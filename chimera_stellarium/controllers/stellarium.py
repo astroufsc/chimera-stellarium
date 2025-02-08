@@ -1,7 +1,7 @@
 
 import socket
 import threading
-import SocketServer
+import socketserver
 import struct
 import math
 
@@ -49,7 +49,7 @@ class CurrentPositionMessage:
         return self.msg
 
 
-class StellariumMessageHandler(SocketServer.BaseRequestHandler):
+class StellariumMessageHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
 
@@ -74,11 +74,11 @@ class StellariumMessageHandler(SocketServer.BaseRequestHandler):
             else:
                 self.server.controller.warning(
                     "Unknown message type: %d" % msg_type)
-        except Exception, e:
+        except Exception as e:
             self.server.controller.log.exception(e)
 
 
-class StellariumServer (SocketServer.ThreadingMixIn, SocketServer.TCPServer):
+class StellariumServer (socketserver.ThreadingMixIn, socketserver.TCPServer):
 
     controller = None
     client = None
@@ -93,7 +93,7 @@ class StellariumServer (SocketServer.ThreadingMixIn, SocketServer.TCPServer):
                 msg = CurrentPositionMessage(position, error=error)
                 self.client.write(str(msg))
                 self.client.flush()
-            except socket.error, e:
+            except socket.error as e:
                 self.controller.log.exception(e)
                 self.client = None
 
