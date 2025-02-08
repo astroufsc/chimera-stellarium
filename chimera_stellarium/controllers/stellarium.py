@@ -1,7 +1,6 @@
-
 import socket
 import threading
-import SocketServer
+import socketserver
 import struct
 import math
 
@@ -16,10 +15,10 @@ class GotoMessage:
         # discard time
         buffer.recv(8)
         self.ra = struct.unpack("<1I", buffer.recv(4))[0]
-        self.ra *= (math.pi / 0x80000000)
+        self.ra *= math.pi / 0x80000000
         self.ra = Coord.fromR(self.ra).toHMS()
         self.dec = struct.unpack("<1i", buffer.recv(4))[0]
-        self.dec *= (math.pi / 0x80000000)
+        self.dec *= math.pi / 0x80000000
         self.dec = Coord.fromR(self.dec).toDMS()
         self.position = Position.fromRaDec(self.ra, self.dec)
 
@@ -33,23 +32,23 @@ class CurrentPositionMessage:
         status = 0
         if error:
             status = 1
-        self.msg = struct.pack("<HHQIii",
-                               24,  # length
-                               0,  # type
-                               0,  # time
-                               # ra
-                               int(math.floor(
-                                   0.5 + position.ra.R * (0x80000000 / math.pi))),
-                               # dec
-                               int(math.floor(
-                                   0.5 + position.dec.R * (0x80000000 / math.pi))),
-                               status)  # status
+        self.msg = struct.pack(
+            "<HHQIii",
+            24,  # length
+            0,  # type
+            0,  # time
+            # ra
+            int(math.floor(0.5 + position.ra.R * (0x80000000 / math.pi))),
+            # dec
+            int(math.floor(0.5 + position.dec.R * (0x80000000 / math.pi))),
+            status,
+        )  # status
 
     def __str__(self):
         return self.msg
 
 
-class StellariumMessageHandler(SocketServer.BaseRequestHandler):
+class StellariumMessageHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
 
@@ -72,13 +71,12 @@ class StellariumMessageHandler(SocketServer.BaseRequestHandler):
                 msg = GotoMessage(self.request)
                 self.server.controller.receiveGoto(msg)
             else:
-                self.server.controller.warning(
-                    "Unknown message type: %d" % msg_type)
-        except Exception, e:
+                self.server.controller.warning("Unknown message type: %d" % msg_type)
+        except Exception as e:
             self.server.controller.log.exception(e)
 
 
-class StellariumServer (SocketServer.ThreadingMixIn, SocketServer.TCPServer):
+class StellariumServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
     controller = None
     client = None
@@ -89,21 +87,24 @@ class StellariumServer (SocketServer.ThreadingMixIn, SocketServer.TCPServer):
         if self.client:
             try:
                 self.controller.log.debug(
-                    "[stellarium] send current position: %s" % position)
+                    "[stellarium] send current position: %s" % position
+                )
                 msg = CurrentPositionMessage(position, error=error)
-                self.client.write(str(msg))
+                self.client.write(msg.msg)
                 self.client.flush()
-            except socket.error, e:
+            except socket.error as e:
                 self.controller.log.exception(e)
                 self.client = None
 
 
 class Stellarium(ChimeraObject):
 
-    __config__ = {"telescope": "/Telescope/0",
-                  "position_update_frequency": 2,
-                  "hostname": "localhost",
-                  "port": 10001}
+    __config__ = {
+        "telescope": "/Telescope/0",
+        "position_update_frequency": 1,
+        "hostname": "localhost",
+        "port": 10001,
+    }
 
     def __init__(self):
         ChimeraObject.__init__(self)
@@ -118,7 +119,8 @@ class Stellarium(ChimeraObject):
         self.telescope = self.getManager().getProxy(self["telescope"])
 
         self.server = StellariumServer(
-            (self["hostname"], self["port"]), StellariumMessageHandler)
+            (self["hostname"], self["port"]), StellariumMessageHandler
+        )
         self.server.controller = self
         self.serverThread = threading.Thread(target=self.server.serve_forever)
         self.serverThread.setDaemon(True)
@@ -130,8 +132,7 @@ class Stellarium(ChimeraObject):
         self.serverThread.join()
 
     def control(self):
-        self.server.sendPosition(
-            self.telescope.getPositionRaDec(), error=self.error)
+        self.server.sendPosition(self.telescope.getPositionRaDec(), error=self.error)
         self.error = False
         return True
 
