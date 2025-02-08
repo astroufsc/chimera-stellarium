@@ -91,7 +91,7 @@ class StellariumServer (socketserver.ThreadingMixIn, socketserver.TCPServer):
                 self.controller.log.debug(
                     "[stellarium] send current position: %s" % position)
                 msg = CurrentPositionMessage(position, error=error)
-                self.client.write(str(msg))
+                self.client.write(msg.msg)
                 self.client.flush()
             except socket.error as e:
                 self.controller.log.exception(e)
@@ -101,7 +101,7 @@ class StellariumServer (socketserver.ThreadingMixIn, socketserver.TCPServer):
 class Stellarium(ChimeraObject):
 
     __config__ = {"telescope": "/Telescope/0",
-                  "position_update_frequency": 2,
+                  "position_update_frequency": 1,
                   "hostname": "localhost",
                   "port": 10001}
 
